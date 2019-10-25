@@ -1,0 +1,146 @@
+$ gcc -Q --help=warnings
+The following options control compiler warning messages:
+  -Wabi                       		[disabled]
+  -Waddress                   		[disabled]
+  -Waggregate-return          		[disabled]
+  -Waliasing                  		
+  -Walign-commons             		
+  -Wall                       		
+  -Wampersand                 		
+  -Warray-bounds              		[disabled]
+  -Warray-temporaries         		
+  -Wassign-intercept          		[disabled]
+  -Wattributes                		[enabled]
+  -Wbad-function-cast         		[disabled]
+  -Wbuiltin-macro-redefined   		
+  -Wc++-compat                		[disabled]
+  -Wc++0x-compat              		[disabled]
+  -Wcast-align                		[disabled]
+  -Wcast-qual                 		[disabled]
+  -Wchar-subscripts           		[disabled]
+  -Wcharacter-truncation      		
+  -Wclobbered                 		[enabled]
+  -Wcomment                   		
+  -Wcomments                  		
+  -Wconversion                		[disabled]
+  -Wcoverage-mismatch         		[disabled]
+  -Wctor-dtor-privacy         		[disabled]
+  -Wdeclaration-after-statement 	[disabled]
+  -Wdeprecated                		[enabled]
+  -Wdeprecated-declarations   		[enabled]
+  -Wdisabled-optimization     		[disabled]
+  -Wdiv-by-zero               		[enabled]
+  -Weffc++                    		[disabled]
+  -Wempty-body                		[enabled]
+  -Wendif-labels              		
+  -Wenum-compare              		[enabled]
+  -Werror-implicit-function-declaration 	
+  -Wextra                     		
+  -Wfloat-equal               		[disabled]
+  -Wformat                    		
+  -Wformat-contains-nul       		[disabled]
+  -Wformat-extra-args         		[disabled]
+  -Wformat-nonliteral         		[disabled]
+  -Wformat-security           		[disabled]
+  -Wformat-y2k                		[disabled]
+  -Wformat-zero-length        		[disabled]
+  -Wformat=                   		
+  -Wignored-qualifiers        		[enabled]
+  -Wimplicit                  		
+  -Wimplicit-function-declaration 	[enabled]
+  -Wimplicit-int              		[disabled]
+  -Wimplicit-interface        		
+  -Winit-self                 		[disabled]
+  -Winline                    		[disabled]
+  -Wint-to-pointer-cast       		[enabled]
+  -Wintrinsic-shadow          		
+  -Wintrinsics-std            		
+  -Winvalid-offsetof          		[enabled]
+  -Winvalid-pch               		
+  -Wlarger-than-              		
+  -Wlarger-than=<number>      		
+  -Wline-truncation           		
+  -Wlogical-op                		[disabled]
+  -Wlong-long                 		[enabled]
+  -Wmain                      		[enabled]
+  -Wmissing-braces            		[disabled]
+  -Wmissing-declarations      		[disabled]
+  -Wmissing-field-initializers 		[enabled]
+  -Wmissing-format-attribute  		[disabled]
+  -Wmissing-include-dirs      		
+  -Wmissing-noreturn          		[disabled]
+  -Wmissing-parameter-type    		[enabled]
+  -Wmissing-prototypes        		[disabled]
+  -Wmudflap                   		[enabled]
+  -Wmultichar                 		
+  -Wnested-externs            		[disabled]
+  -Wnon-template-friend       		[enabled]
+  -Wnon-virtual-dtor          		[disabled]
+  -Wnonnull                   		[disabled]
+  -Wnormalized=<id|nfc|nfkc>  		
+  -Wold-style-cast            		[disabled]
+  -Wold-style-declaration     		[enabled]
+  -Wold-style-definition      		[disabled]
+  -Woverflow                  		[enabled]
+  -Woverlength-strings        		[enabled]
+  -Woverloaded-virtual        		[disabled]
+  -Woverride-init             		[enabled]
+  -Wpacked                    		[disabled]
+  -Wpacked-bitfield-compat    		[enabled]
+  -Wpadded                    		[disabled]
+  -Wparentheses               		[disabled]
+  -Wpmf-conversions           		[enabled]
+  -Wpointer-arith             		[disabled]
+  -Wpointer-sign              		[enabled]
+  -Wpointer-to-int-cast       		[enabled]
+  -Wpragmas                   		[enabled]
+  -Wprotocol                  		[enabled]
+  -Wredundant-decls           		[disabled]
+  -Wreorder                   		[disabled]
+  -Wreturn-type               		[disabled]
+  -Wselector                  		[disabled]
+  -Wsequence-point            		[disabled]
+  -Wshadow                    		[disabled]
+  -Wsign-compare              		[enabled]
+  -Wsign-promo                		[disabled]
+  -Wstack-protector           		[disabled]
+  -Wstrict-aliasing           		
+  -Wstrict-aliasing=          		0xffffffff
+  -Wstrict-null-sentinel      		
+  -Wstrict-overflow           		
+  -Wstrict-overflow=          		0xffffffff
+  -Wstrict-prototypes         		[disabled]
+  -Wstrict-selector-match     		[disabled]
+  -Wsurprising                		
+  -Wswitch                    		[disabled]
+  -Wswitch-default            		[disabled]
+  -Wswitch-enum               		[disabled]
+  -Wsync-nand                 		[enabled]
+  -Wsynth                     		[disabled]
+  -Wsystem-headers            		[disabled]
+  -Wtabs                      		
+  -Wtraditional               		[disabled]
+  -Wtraditional-conversion    		[disabled]
+  -Wtrigraphs                 		
+  -Wtype-limits               		[enabled]
+  -Wundeclared-selector       		[disabled]
+  -Wundef                     		
+  -Wunderflow                 		
+  -Wuninitialized             		[disabled]
+  -Wunknown-pragmas           		
+  -Wunreachable-code          		[disabled]
+  -Wunsafe-loop-optimizations 		[disabled]
+  -Wunused                    		[disabled]
+  -Wunused-but-set-parameter  		[disabled]
+  -Wunused-but-set-variable   		[disabled]
+  -Wunused-function           		[enabled]
+  -Wunused-label              		[enabled]
+  -Wunused-macros             		
+  -Wunused-parameter          		[enabled]
+  -Wunused-value              		[enabled]
+  -Wunused-variable           		[enabled]
+  -Wvariadic-macros           		
+  -Wvla                       		[enabled]
+  -Wvolatile-register-var     		[disabled]
+  -Wwrite-strings             		[disabled]
+
