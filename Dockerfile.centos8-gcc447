@@ -1,0 +1,63 @@
+FROM centos:centos8
+
+#------------
+# GCC default
+#------------
+RUN yum group install -y -q "Development Tools" && yum clean all
+WORKDIR /usr/local/src
+
+#------------
+# fpm
+#------------
+RUN yum -y install ruby ruby-devel ruby-libs rubygems rpm-build \
+ && gem install fpm --no-rdoc --no-ri
+
+#------------
+# ENV
+#------------
+ENV CXXFLAGS="-std=gnu89"
+
+#----------
+# GCC 4.4.7
+#----------
+COPY gcc-4.4.7.tar.bz2 gcc-4.4.7.tar.bz2
+RUN tar xf gcc-4.4.7.tar.bz2
+WORKDIR /usr/local/src/gcc-4.4.7/
+RUN yum install -y -q wget && yum clean all
+RUN ./contrib/download_prerequisites
+RUN yum install -y -q zlib-devel && yum clean all
+
+# --disable-bootstrap
+# --enable-bootstrap
+RUN ./configure \
+ --prefix=/opt/gcc-4.4.7 \
+ --with-bugurl=http://bugzilla.redhat.com/bugzilla \
+ --disable-bootstrap \
+ --enable-shared \
+ --enable-threads=posix \
+ --enable-checking=release \
+ --with-system-zlib \
+ --enable-__cxa_atexit \
+ --disable-libunwind-exceptions \
+ --enable-gnu-unique-object \
+ --enable-languages=c,c++ \
+ --disable-dssi \
+ --enable-libgcj-multifile \
+ --with-ppl \
+ --with-cloog \
+ --with-tune=generic \
+ --disable-multilib \
+ --build=x86_64-redhat-linux
+
+RUN make -s
+RUN make install
+
+RUN fpm -s dir \
+  -v 4.4.7 \
+  -t rpm \
+  -n opt-gcc-4.4.7 \
+  -p opt-gcc-4.4.7.el8.x86_64.rpm \
+  -C /opt/gcc-4.4.7 \
+  --prefix /opt/gcc-4.4.7 \
+  -a x86_64 \
+  .
