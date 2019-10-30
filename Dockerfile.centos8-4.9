@@ -44,6 +44,7 @@ RUN tar xzf gcc-4.9.4.tar.gz
 WORKDIR /usr/local/src/gcc-4.9.4/
 RUN yum install -y -q wget && yum clean all
 RUN ./contrib/download_prerequisites
+RUN yum install -y -q zlib-devel && yum clean all
 
 # --disable-bootstrap
 # --enable-bootstrap
