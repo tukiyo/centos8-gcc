@@ -42,6 +42,7 @@ ENV CXXFLAGS="-std=gnu++98"
 COPY gcc-4.9.4.tar.gz gcc-4.9.4.tar.gz
 RUN tar xzf gcc-4.9.4.tar.gz
 WORKDIR /usr/local/src/gcc-4.9.4/
+RUN yum install -y -q wget && yum clean all
 RUN ./contrib/download_prerequisites
 
 # --disable-bootstrap
