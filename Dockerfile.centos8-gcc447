@@ -23,9 +23,12 @@ ENV CXXFLAGS="-std=gnu89"
 COPY gcc-4.4.7.tar.bz2 gcc-4.4.7.tar.bz2
 RUN tar xf gcc-4.4.7.tar.bz2
 WORKDIR /usr/local/src/gcc-4.4.7/
-RUN yum install -y -q wget && yum clean all
-RUN ./contrib/download_prerequisites
-RUN yum install -y -q zlib-devel && yum clean all
+RUN yum install -y -q \
+  wget \
+  zlib-devel \
+  gmp-devel \
+  mpfr-devel \
+  && yum clean all
 
 # --disable-bootstrap
 # --enable-bootstrap
