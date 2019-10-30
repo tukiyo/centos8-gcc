@@ -1,59 +1,83 @@
 FROM centos:centos8
 
+#------------
+# GCC default
+#------------
 RUN yum group install -y -q "Development Tools" && yum clean all
-RUN yum remove -y gcc c++
-
 WORKDIR /usr/local/src
 
+#------------
+# fpm
+#------------
+RUN yum -y install ruby ruby-devel ruby-libs rubygems rpm-build \
+ && gem install fpm --no-rdoc --no-ri
+
+RUN yum remove -y gcc c++
+
+#----------
+# GCC 6.5.0
+#----------
 COPY ./rpms/opt-gcc-6.5.0.el8.x86_64.rpm opt-gcc-6.5.0.el8.x86_64.rpm
 RUN rpm -ivh opt-gcc-6.5.0.el8.x86_64.rpm
 
-#-------------
 # alternatives
-#-------------
 RUN update-alternatives \
  --install /usr/bin/gcc gcc /opt/gcc-6.5.0/bin/gcc 20 \
  --slave   /usr/bin/g++ g++ /opt/gcc-6.5.0/bin/g++
 ENV CC=/opt/gcc-6.5.0/bin/gcc
 ENV CXX=/opt/gcc-6.5.0/bin/g++
 
+# compile check
 COPY ./rpms/hello.c hello.c
-RUN gcc -v hello.c
-RUN ./a.out
+RUN gcc -v hello.c && ./a.out
 
+#------------
+# ENV
+#------------
 ENV CXXFLAGS="-std=gnu++98"
 
-# #---------
-# # gcc 4.9
-# #---------
-# COPY gcc-4.9.4.tar.gz gcc-4.9.4.tar.gz
-# RUN tar xzf gcc-4.9.4.tar.gz
-# WORKDIR /usr/local/src/gcc-4.9.4/
-# RUN ./contrib/download_prerequisites
-# 
-# # --disable-bootstrap
-# RUN ./configure \
-#  --prefix=/opt/gcc-6.5.0 \
-#  --with-bugurl=http://bugzilla.redhat.com/bugzilla \
-#  --disable-bootstrap \
-#  --enable-shared \
-#  --enable-threads=posix \
-#  --enable-checking=release \
-#  --with-system-zlib \
-#  --enable-__cxa_atexit \
-#  --disable-libunwind-exceptions \
-#  --enable-gnu-unique-object \
-#  --enable-languages=c,c++ \
-#  --disable-dssi \
-#  --enable-libgcj-multifile \
-#  --with-ppl \
-#  --with-cloog \
-#  --with-tune=generic \
-#  --disable-multilib \
-#  --build=x86_64-redhat-linux
-# 
-# RUN make -s
-# RUN make install
+#----------
+# GCC 4.9.4
+#----------
+COPY gcc-4.9.4.tar.gz gcc-4.9.4.tar.gz
+RUN tar xzf gcc-4.9.4.tar.gz
+WORKDIR /usr/local/src/gcc-4.9.4/
+RUN ./contrib/download_prerequisites
+
+# --disable-bootstrap
+# --enable-bootstrap
+RUN ./configure \
+ --prefix=/opt/gcc-6.5.0 \
+ --with-bugurl=http://bugzilla.redhat.com/bugzilla \
+ --disable-bootstrap \
+ --enable-shared \
+ --enable-threads=posix \
+ --enable-checking=release \
+ --with-system-zlib \
+ --enable-__cxa_atexit \
+ --disable-libunwind-exceptions \
+ --enable-gnu-unique-object \
+ --enable-languages=c,c++ \
+ --disable-dssi \
+ --enable-libgcj-multifile \
+ --with-ppl \
+ --with-cloog \
+ --with-tune=generic \
+ --disable-multilib \
+ --build=x86_64-redhat-linux
+
+RUN make -s
+RUN make install
+
+RUN fpm -s dir \
+  -v 6.5.0 \
+  -t rpm \
+  -n opt-gcc-4.9.4 \
+  -p opt-gcc-4.9.4.el8.x86_64.rpm \
+  -C /opt/gcc-4.9.4 \
+  --prefix /opt/gcc-4.9.4 \
+  -a x86_64 \
+  .
 
 # #---------
 # # mysql
