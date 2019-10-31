@@ -12,10 +12,21 @@ WORKDIR /usr/local/src
 RUN yum -y install ruby ruby-devel ruby-libs rubygems rpm-build \
  && gem install fpm --no-rdoc --no-ri
 
-#------------
-# ENV
-#------------
-ENV CXXFLAGS="-std=gnu89"
+# gcc remove
+RUN yum remove -y  gcc g++
+COPY rpms/opt-gcc-4.4.7.compat447.el7.x86_64.rpm opt-gcc-4.4.7.el7.x86_64.rpm 
+RUN rpm -ivh opt-gcc-4.4.7.el7.x86_64.rpm 
+
+#-------------
+# alternatives
+#-------------
+RUN yum remove -y gcc gcc-c++ \
+ && update-alternatives \
+ --install /usr/bin/gcc gcc /opt/gcc-4.4.7/bin/gcc 20 \
+ --slave   /usr/bin/g++ g++ /opt/gcc-4.4.7/bin/g++
+ENV CC=/opt/gcc-4.4.7/bin/gcc
+ENV CXX=/opt/gcc-4.4.7/bin/g++
+
 
 #----------
 # GCC 4.4.7
@@ -30,11 +41,19 @@ RUN yum install -y -q \
   mpfr-devel \
   && yum clean all
 
+#------------
+# ENV
+#------------
+RUN echo "CXXFLAGS=-std=gnu89"
+ENV CXXFLAGS="-std=gnu89"
+
+
 # --disable-bootstrap
 # --enable-bootstrap
 RUN ./configure \
  --prefix=/opt/gcc-4.4.7 \
  --with-bugurl=http://bugzilla.redhat.com/bugzilla \
+ #--enable-bootstrap \
  --disable-bootstrap \
  --enable-shared \
  --enable-threads=posix \
