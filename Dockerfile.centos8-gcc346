@@ -29,11 +29,11 @@ ENV CXX=/opt/gcc-4.4.7/bin/g++
 
 
 #----------
-# GCC 3.4.6
+# GCC 4.4.7
 #----------
-COPY gcc-3.4.6.tar.bz2 gcc-3.4.6.tar.bz2
-RUN tar xf gcc-3.4.6.tar.bz2
-WORKDIR /usr/local/src/gcc-3.4.6/
+COPY gcc-4.4.7.tar.bz2 gcc-4.4.7.tar.bz2
+RUN tar xf gcc-4.4.7.tar.bz2
+WORKDIR /usr/local/src/gcc-4.4.7/
 RUN yum install -y -q \
   wget \
   zlib-devel \
@@ -44,14 +44,14 @@ RUN yum install -y -q \
 #------------
 # ENV
 #------------
-# RUN echo "CXXFLAGS=-std=gnu++98"
-# ENV CXXFLAGS="-std=gnu++98"
+RUN echo "CXXFLAGS=-std=gnu++98"
+ENV CXXFLAGS="-std=gnu++98"
 
 
 # --disable-bootstrap
 # --enable-bootstrap
 RUN ./configure \
- --prefix=/opt/gcc-3.4.6 \
+ --prefix=/opt/gcc-4.4.7 \
  --with-bugurl=http://bugzilla.redhat.com/bugzilla \
  #--enable-bootstrap \
  --disable-bootstrap \
@@ -75,11 +75,11 @@ RUN make -s
 RUN make install
 
 RUN fpm -s dir \
-  -v 3.4.6 \
+  -v 4.4.7 \
   -t rpm \
-  -n opt-gcc-3.4.6 \
-  -p opt-gcc-3.4.6.el8.x86_64.rpm \
-  -C /opt/gcc-3.4.6 \
-  --prefix /opt/gcc-3.4.6 \
+  -n opt-gcc-4.4.7 \
+  -p opt-gcc-4.4.7.el8.x86_64.rpm \
+  -C /opt/gcc-4.4.7 \
+  --prefix /opt/gcc-4.4.7 \
   -a x86_64 \
   .

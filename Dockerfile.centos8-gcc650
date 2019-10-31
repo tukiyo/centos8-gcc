@@ -1,4 +1,4 @@
-FROM centos:centos8
+FROM centos:8
 
 RUN yum groupinstall -y -q "Development Tools" && yum clean all
 WORKDIR /usr/local/src/

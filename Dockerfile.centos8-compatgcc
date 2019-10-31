@@ -1,0 +1,40 @@
+FROM centos:8
+
+RUN yum groupinstall -y -q "Development Tools" && yum clean all
+WORKDIR /usr/local/src/
+RUN yum install -y gmp-devel mpfr-devel ncurses-devel wget wget zlib-devel
+
+
+#----------
+# fpm
+#----------
+RUN yum -y install ruby ruby-devel ruby-libs rubygems rpm-build \
+ && gem install fpm --no-rdoc --no-ri
+
+
+RUN yum install -y -q \
+  wget \
+  zlib-devel \
+  gmp-devel \
+  mpfr-devel \
+  && yum clean all
+
+#RUN yum install -y \
+#  glibc-static dejagnu texinfo sharutils elfutils-devel \
+#  glibc-devel.x86_64 glibc-devel.i686 \
+#  && yum clean all
+
+RUN yum install -y \
+  elfutils-devel \
+  && yum clean all
+
+COPY files.centos8/compat-gcc-44-4.4.7-8.el7.src.rpm compat-gcc-44-4.4.7-8.el7.src.rpm
+RUN rpm -ivh compat-gcc-44-4.4.7-8.el7.src.rpm
+WORKDIR /root/rpmbuild/SPECS/
+COPY files.centos8/compat-gcc-44.spec compat-gcc-44.spec
+
+RUN yum install -y \
+  libgfortran \
+  && yum clean all
+
+RUN rpmbuild -bb compat-gcc-44.spec

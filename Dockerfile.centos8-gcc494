@@ -27,31 +27,18 @@ RUN yum remove -y gcc gcc-c++ \
 ENV CC=/opt/gcc-4.4.7/bin/gcc
 ENV CXX=/opt/gcc-4.4.7/bin/g++
 
-
 #----------
-# GCC 3.4.6
+# gcc 4.9.4
 #----------
-COPY gcc-3.4.6.tar.bz2 gcc-3.4.6.tar.bz2
-RUN tar xf gcc-3.4.6.tar.bz2
-WORKDIR /usr/local/src/gcc-3.4.6/
-RUN yum install -y -q \
-  wget \
-  zlib-devel \
-  gmp-devel \
-  mpfr-devel \
-  && yum clean all
-
-#------------
-# ENV
-#------------
-# RUN echo "CXXFLAGS=-std=gnu++98"
-# ENV CXXFLAGS="-std=gnu++98"
-
+COPY gcc-4.9.4.tar.bz2 gcc-4.9.4.tar.bz2 
+RUN tar xf gcc-4.9.4.tar.bz2 
+WORKDIR /usr/local/src/gcc-4.9.4/
+RUN yum -y install wget && yum clean all
+RUN ./contrib/download_prerequisites
 
 # --disable-bootstrap
-# --enable-bootstrap
 RUN ./configure \
- --prefix=/opt/gcc-3.4.6 \
+ --prefix=/opt/gcc-4.9.4 \
  --with-bugurl=http://bugzilla.redhat.com/bugzilla \
  #--enable-bootstrap \
  --disable-bootstrap \
@@ -75,11 +62,12 @@ RUN make -s
 RUN make install
 
 RUN fpm -s dir \
-  -v 3.4.6 \
+  -v 4.9.4 \
   -t rpm \
-  -n opt-gcc-3.4.6 \
-  -p opt-gcc-3.4.6.el8.x86_64.rpm \
-  -C /opt/gcc-3.4.6 \
-  --prefix /opt/gcc-3.4.6 \
+  -n opt-gcc-4.9.4 \
+  -p opt-gcc-4.9.4.el8.x86_64.rpm \
+  -C /opt/gcc-4.9.4 \
+  --prefix /opt/gcc-4.9.4 \
   -a x86_64 \
   .
+
